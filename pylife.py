@@ -38,9 +38,11 @@ class PyLife(tk.Tk):
 
     def run(self):
         while True:
+            s = time.time()
             self.cells = self.gen_next_cells()
             self.draw()
-            time.sleep(self._interval_sec)
+            print(time.time() - s)
+            #time.sleep(self._interval_sec)
 
     def gen_next_cells(self) -> List[List[int]]:
         rows = []
@@ -48,12 +50,7 @@ class PyLife(tk.Tk):
             cols = []
             for c in range(self._block_num):
                 alive = self.count_alive_cells(r, c)
-                if alive == 2:
-                    cols.append(self.cells[r][c])
-                elif alive == 3:
-                    cols.append(1)
-                else:
-                    cols.append(0)
+                cols.append(self.cells[r][c] if alive == 2 else 1 if alive == 3 else 0)
             rows.append(cols)
         return rows
 
@@ -109,5 +106,5 @@ class PyLife(tk.Tk):
 
 
 if __name__ == '__main__':
-    pylife = PyLife(title='PyLife', width=500, height=500, num=50, interval_sec=0.2)
+    pylife = PyLife(title='PyLife', width=500, height=500, num=100, interval_sec=0.05)
     pylife.start()
